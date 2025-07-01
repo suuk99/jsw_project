@@ -19,10 +19,10 @@ class App {
         register();
       } else if (cmd.equals("목록")) {
         list_();
-      } else if (cmd.equals("삭제")) {
-
-      } else if (cmd.equals("수정")) {
-
+      } else if (cmd.startsWith("삭제")) {
+        remove_(cmd);
+      } else if (cmd.startsWith("수정")) {
+        reset_(cmd);
       } else {
         System.out.println("해당 기능은 없습니다. 다시 입력해 주세요.");
       }
@@ -32,7 +32,7 @@ class App {
     System.out.print("명언을 입력해 주세요 : ");
     String wisesaying = sc.nextLine();
 
-    System.out.println("작가를 입력해 주세요 : ");
+    System.out.print("작가를 입력해 주세요 : ");
     String writer = sc.nextLine();
 
     Wisesaying w = new Wisesaying(wisesaying, writer, id);
@@ -46,7 +46,83 @@ class App {
       System.out.println("등록된 명언이 없습니다.");
     }
     for (Wisesaying w : list) {
-      System.out.println(w);
+      System.out.printf("%d / %s / %s\n", w.id, w.wisesaying, w.writer);
+    }
+  }
+  void remove_ (String cmd) {
+    if (list.isEmpty()) {
+      System.out.println("등록된 명언이 없습니다.");
+      return;
+    }
+    if (!cmd.startsWith("삭제?id=")) {
+      System.out.println("다시 입력해 주세요.");
+      return;
+    }
+
+    String idStr = cmd.replace("삭제?id=", "");
+    int r_id = -1;
+
+    try {
+      r_id = Integer.parseInt(idStr);
+    } catch (NumberFormatException e) {
+      System.out.println("삭제할 명언의 id를 입력해 주세요.");
+      return;
+    }
+
+    Wisesaying found = null;
+    for(Wisesaying w : list) {
+      if (w.id == r_id) {
+        found = w;
+        break;
+      }
+    }
+      if (found != null) {
+        list.remove(found);
+        System.out.printf("%d번 명언이 삭제 되었습니다.\n", r_id);
+      }
+      else {
+        System.out.printf("%d번 명언이 존재하지 않습니다.\n",r_id);
+      }
+    }
+  void reset_ (String cmd) {
+    if (list.isEmpty()) {
+      System.out.println("등록된 명언이 없습니다.");
+      return;
+    }
+    if (!cmd.startsWith("수정?id=")) {
+      System.out.println("다시 입력해 주세요.");
+      return;
+    }
+    String idStr = cmd.replace("수정?id=", "");
+    int r_id = -1;
+
+    try {
+      r_id = Integer.parseInt(idStr);
+    } catch (NumberFormatException e) {
+      System.out.println("숫자를 입력해 주세요.");
+      return;
+    }
+
+    Wisesaying found = null;
+    for (Wisesaying w : list) {
+      if (w.id == r_id) {
+        found = w;
+        break;
+      }
+    }
+    if (found != null) {
+      System.out.print("새로운 명언을 입력해 주세요 : ");
+      String new_wisesaying = sc.nextLine();
+      System.out.print("작가를 입력해 주세요 : ");
+      String new_writer = sc.nextLine();
+
+      Wisesaying new_ws = new Wisesaying(new_wisesaying, new_writer, r_id);
+      list.set(r_id -1,new_ws);
+
+      System.out.printf("%d번 명언이 수정되었습니다.\n", r_id);
+    }
+    else {
+      System.out.printf("%d번 명언이 존재하지 않습니다\n",r_id);
     }
   }
 }
