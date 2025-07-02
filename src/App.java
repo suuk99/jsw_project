@@ -44,6 +44,7 @@ class App {
   void list_ () {
     if (list.isEmpty()) {
       System.out.println("등록된 명언이 없습니다.");
+      return;
     }
     for (Wisesaying w : list) {
       System.out.printf("%d / %s / %s\n", w.id, w.wisesaying, w.writer);
@@ -117,7 +118,8 @@ class App {
       String new_writer = sc.nextLine();
 
       Wisesaying new_ws = new Wisesaying(new_wisesaying, new_writer, r_id);
-      list.set(r_id -1,new_ws);
+      int index = list.indexOf(found);
+      list.set(index ,new_ws);
 
       System.out.printf("%d번 명언이 수정되었습니다.\n", r_id);
     }
