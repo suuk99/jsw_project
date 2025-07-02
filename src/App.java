@@ -8,6 +8,8 @@ class App {
 
   void run () {
     System.out.println("== 명언 앱 ==");
+
+    auto_create();
     while (true) {
       System.out.print("명령 : ");
       String cmd = sc.nextLine();
@@ -28,6 +30,18 @@ class App {
       }
     }
   }
+  void auto_create () {
+    list.add(new Wisesaying("1", "1", id++));
+    list.add(new Wisesaying("2", "2", id++));
+    list.add(new Wisesaying("3", "3", id++));
+    list.add(new Wisesaying("4", "4", id++));
+    list.add(new Wisesaying("5", "5", id++));
+    list.add(new Wisesaying("6", "6", id++));
+    list.add(new Wisesaying("7", "7", id++));
+    list.add(new Wisesaying("8", "8", id++));
+    list.add(new Wisesaying("9", "9", id++));
+    list.add(new Wisesaying("10", "10", id++));
+  }
   void register() {
     System.out.print("명언을 입력해 주세요 : ");
     String wisesaying = sc.nextLine();
@@ -42,10 +56,6 @@ class App {
     id ++;
   }
   void list_ () {
-    if (list.isEmpty()) {
-      System.out.println("등록된 명언이 없습니다.");
-      return;
-    }
     for (Wisesaying w : list) {
       System.out.printf("%d / %s / %s\n", w.id, w.wisesaying, w.writer);
     }
